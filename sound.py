@@ -632,7 +632,7 @@ def create_sine_wave(frequency, amplitude, duration):
     seconds_per_period = 1.0 / frequency
     samples_per_period = samples_per_second * seconds_per_period
 
-    samples = numpy.array([range(duration), range(duration)], numpy.float)
+    samples = numpy.array([range(duration), range(duration)], float)
     samples = samples.transpose()
 
     # For each value in the array multiply it by 2*Pi, divide by the
