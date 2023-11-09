@@ -41,6 +41,38 @@ def get_max_in_range(my_sound, start, end):
 
 
 # To Do: Define your set_extremes function below this line.
+def set_extremes(original_sound):
+    """
+    Applies a filter to the sound based on extreme left channel values.
+
+    Parameters:
+        original_sound (Sound): The original sound to be filtered.
+
+    Returns:
+        Sound: The filtered sound.
+    """
+
+    # Step 1: Create a copy of the parameter sound
+    filtered_sound = original_sound.copy()
+
+    # Step 2: Compute the maximum left channel value
+    max_left_value = get_max_in_range(filtered_sound, 0, len(filtered_sound))
+
+    # Step 3: Loop through all indices and apply filtering rules
+    for i in range(len(filtered_sound)):
+        sample = filtered_sound[i]
+
+        # Set the right channel value to 0
+        sample.right = 0
+
+        # Apply left channel value conditions
+        if abs(sample.left) > 3000:
+            sample.left = max_left_value // 4
+        elif abs(sample.left) < -3000:
+            sample.left = -max_left_value // 4
+
+    # Step 4: Return the modified sound
+    return filtered_sound
 
 
 jolly = sound.load_sound("jolly.wav")
@@ -50,3 +82,12 @@ jolly.display()
 
 
 # To Do: Add new test code after this line.
+# Call the set_extremes function and assign the result to extreme_laugh
+extreme_laugh = set_extremes(jolly)
+
+# Play the modified sound
+extreme_laugh.play()
+sound.wait_until_played()  # waits until extreme_laugh is done playing
+
+# Display the waveform of the modified sound
+extreme_laugh.display()
